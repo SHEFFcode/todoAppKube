@@ -27,18 +27,22 @@ app.delete('/:id', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  const getInfo = async () => {
-    try {
-      console.log('Awaiting connection')
-      await sql.connect(`mssql://${USERNAME}:${PASSWORD}@brad-todo-test.database.windows.net`)
-      console.log('Made the connection')
-      const result = await sql.query`select * from dbo.PrimaryTodo`
-      console.log('Got the result')
-      console.log(result)
-      res.send(JSON.stringify(result))
-    } catch (err) {
-      console.log(err)
-      res.send(err)
+    const getInfo = async () => {
+        try {
+            console.log('Awaiting connection')
+            const serverString = `mssql://${USERNAME}:${PASSWORD}@brad-todo-test.database.windows.net/contoso-todo?encrypt=true`;
+            console.log('connecting...');
+            console.log(serverString);
+            await sql.connect(serverString);
+            console.log('Made the connection')
+            const result = await sql.query`select * from dbo.PrimaryTodo`
+            console.log('Got the result')
+            console.log(result)
+            res.send(JSON.stringify(result))
+        } catch (err) {
+            console.log(err)
+            res.send(err)
+        }
     }
   }
   getInfo()
