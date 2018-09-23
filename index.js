@@ -11,14 +11,19 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => {
     const getInfo = async () => {
         try {
-            await sql.connect('mssql://username:password@localhost/database')
-            const result = await sql.query`select * from mytable where id = ${value}`
-            console.dir(result)
+            console.log('Awaiting connection')
+            await sql.connect(`mssql://${USERNAME}:${PASSWORD}@brad-todo-test.database.windows.net`)
+            console.log('Made the connection')
+            const result = await sql.query`select * from dbo.PrimaryTodo`
+            console.log('Got the result')
+            console.log(result)
+            res.send(JSON.stringify(result))
         } catch (err) {
-            // ... error checks
+            console.log(err)
+            res.send(err)
         }
     }
-    res.send(JSON.stringify(getInfo))
+    getInfo()
 })
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`))
