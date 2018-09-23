@@ -45,6 +45,4 @@ app.delete('/:id', (req, res) => {
     const id = req.params.id
 })
 
-
-
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`))
