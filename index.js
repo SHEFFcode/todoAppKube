@@ -8,22 +8,40 @@ const sql = require('mssql')
 
 app.use(bodyParser.json())
 
+app.get('/:id', (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    res.send(id)
+})
+
+app.put('/:id', (req, res) => {
+    const id = req.params.id
+})
+
+app.post('/:id', (req, res) => {
+    const id = req.params.id
+})
+
+app.delete('/:id', (req, res) => {
+    const id = req.params.id
+})
+
 app.get('/', (req, res) => {
-    const getInfo = async () => {
-        try {
-            console.log('Awaiting connection')
-            await sql.connect(`mssql://${USERNAME}:${PASSWORD}@brad-todo-test.database.windows.net`)
-            console.log('Made the connection')
-            const result = await sql.query`select * from dbo.PrimaryTodo`
-            console.log('Got the result')
-            console.log(result)
-            res.send(JSON.stringify(result))
-        } catch (err) {
-            console.log(err)
-            res.send(err)
-        }
+  const getInfo = async () => {
+    try {
+      console.log('Awaiting connection')
+      await sql.connect(`mssql://${USERNAME}:${PASSWORD}@brad-todo-test.database.windows.net`)
+      console.log('Made the connection')
+      const result = await sql.query`select * from dbo.PrimaryTodo`
+      console.log('Got the result')
+      console.log(result)
+      res.send(JSON.stringify(result))
+    } catch (err) {
+      console.log(err)
+      res.send(err)
     }
-    getInfo()
+  }
+  getInfo()
 })
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}...`))
